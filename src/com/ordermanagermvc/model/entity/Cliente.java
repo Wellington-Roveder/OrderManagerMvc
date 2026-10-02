@@ -1,11 +1,17 @@
 package com.ordermanagermvc.model.entity;
 
+import java.util.ArrayList;
+import com.ordermanagermvc.model.entity.Pedido;
+import java.util.List;
+
+
 public class Cliente {
 		private String uuId;
 		private String cpf;
 		private String nome;
 		private String telefone;
 		private String email;
+		private List<Pedido> pedidos;
 		
 		
 		public Cliente(String uuId, String cpf, String nome, String telefone, String email) {
@@ -14,7 +20,7 @@ public class Cliente {
 			 this.setNome(nome);
 			 this.setTelefone(telefone);
 			 this.setEmail(email);
-			 
+			 this.pedidos = new ArrayList<>();
 		}
 
 
@@ -64,6 +70,12 @@ public class Cliente {
 
 		public void setEmail(String email) {
 			this.email = email;
+		}
+
+		public List<Pedido> getPedidos() { return pedidos; }
+
+		public void adicionarPedido(Pedido pedido) {
+			this.pedidos.add(pedido);
 		}
 		
 		@Override
