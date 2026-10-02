@@ -26,7 +26,7 @@ public class Main {
         PedidoService pedidoService = new PedidoServiceImpl(pedidoRepository);
         ClienteService clienteService = new ClienteServiceImpl(clienteRepository); 
 
-        PedidoController pedidoController = new PedidoController(pedidoService);
+        PedidoController pedidoController = new PedidoController(pedidoService, clienteService);
         ClienteController clienteController = new ClienteController(clienteService); 
         
 

@@ -23,10 +23,11 @@ public class ConsoleView {
         int opcao = -1;
         while (opcao != 0) {
             System.out.println("\n=== GERENCIADOR DE PEDIDOS ===");
-            System.out.println("1. Cadastrar Cliente");      // Nova opção
-            System.out.println("2. Listar Clientes");         // Nova opção
-            System.out.println("3. Incluir Novo Pedido");     // Mantido original
-            System.out.println("4. Listar Todos os Pedidos"); // Mantido original
+            System.out.println("1. Cadastrar Cliente");
+            System.out.println("2. Listar Clientes");
+            System.out.println("3. Incluir Novo Pedido");
+            System.out.println("4. Listar Todos os Pedidos");
+            System.out.println("5: Listar Pedidos de um Cliente");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -37,6 +38,7 @@ public class ConsoleView {
                     case 2 -> menuListarClientes();
                     case 3 -> menuIncluir();
                     case 4 -> menuListar();
+                    case 5 -> menuListarPedidosPorCliente();
                     case 0 -> System.out.println("Saindo do sistema... Até logo!");
                     default -> System.out.println("Opção inválida! Tente novamente.");
                 }
@@ -80,13 +82,21 @@ public class ConsoleView {
 
     private void menuIncluir() {
         System.out.println("\n--- NOVO PEDIDO ---");
+
+        System.out.print("CPF do Cliente: ");
+        String cpfCliente = scanner.nextLine();
+
         System.out.print("Descrição do item: ");
         String descricao = scanner.nextLine();
+
         System.out.print("Valor do item (ex: 49.90): ");
         try {
             double valor = Double.parseDouble(scanner.nextLine());
-            String resposta = pedidoController.cadastrar(descricao, valor);
+
+            // Enviando o CPF do cliente junto com os dados do pedido para a controller
+            String resposta = pedidoController.cadastrar(descricao, valor, cpfCliente);
             System.out.println(resposta);
+
         } catch (NumberFormatException e) {
             System.out.println("❌ Erro: O valor digitado é inválido.");
         }
@@ -100,6 +110,32 @@ public class ConsoleView {
             System.out.println("Nenhum pedido cadastrado até o momento.");
         } else {
             pedidos.forEach(System.out::println);
+        }
+    }
+
+    private void menuListarPedidosPorCliente() {
+        System.out.println("\n--- CONSULTAR PEDIDOS POR CLIENTE ---");
+        System.out.print("Digite o CPF do cliente: ");
+        String cpf = scanner.nextLine().replaceAll("\\D", "");
+
+        // Localiza o cliente através do controller de clientes
+        Cliente cliente = clienteController.listar().stream()
+                .filter(c -> c.getCpf().equals(cpf))
+                .findFirst()
+                .orElse(null);
+
+        if (cliente == null) {
+            System.out.println("❌ Erro: Cliente não encontrado.");
+            return;
+        }
+
+        System.out.println("\nPedidos de " + cliente.getNome() + ":");
+        List<Pedido> pedidosDoCliente = cliente.getPedidos(); // Busca a lista conectada na memória
+
+        if (pedidosDoCliente.isEmpty()) {
+            System.out.println("Este cliente ainda não possui pedidos cadastrados.");
+        } else {
+            pedidosDoCliente.forEach(System.out::println);
         }
     }
 }
