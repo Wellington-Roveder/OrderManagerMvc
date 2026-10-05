@@ -93,7 +93,8 @@ public class ConsoleView {
 
         System.out.print("Valor do item (ex: 49.90): ");
         try {
-            BigDecimal valor = scanner.nextBigDecimal();
+            String valorTexto = scanner.nextLine().replace(",", ".");
+            BigDecimal valor = new BigDecimal(valorTexto);
 
             // Enviando o CPF do cliente junto com os dados do pedido para a controller
             String resposta = pedidoController.cadastrar(descricao, valor, cpfCliente);
