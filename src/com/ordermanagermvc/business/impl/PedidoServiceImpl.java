@@ -38,6 +38,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         repository.salvar(novoPedido);
     }
+    // commitado e limpo
 
     @Override
     public List<Pedido> obterTodosOsPedidos() {
