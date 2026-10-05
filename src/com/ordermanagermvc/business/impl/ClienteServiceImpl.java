@@ -42,6 +42,42 @@ public class ClienteServiceImpl implements ClienteService {
 		if (cpf.length() != 11) {
 			throw new IllegalArgumentException("CPF deve possuir 11 dígitos.");
 		}
+		if (cpf.matches("(\\d)\\1{10}")){
+			throw  new IllegalArgumentException("CPF invalido (digitos repetidos).");
+		}
+
+		// --- CÁLCULO DO PRIMEIRO DÍGITO VERIFICADOR ---
+		int soma = 0;
+		int peso = 10;
+
+		for (int i = 0; i < 9; i++){
+			int num = Character.getNumericValue(cpf.charAt(i));
+			soma += (num * peso);
+			peso --;
+		}
+		int resto = soma % 11;
+		int digito1 = (resto < 2) ? 0: (11 - resto);
+
+		if (Character.getNumericValue(cpf.charAt(9))!= digito1){
+			throw new IllegalArgumentException("CPF inválido.");
+		}
+
+		// --- CÁLCULO DO SEGUNDO DÍGITO VERIFICADOR ---
+		soma = 0;
+		peso = 11;
+
+		for (int i = 0; i < 10; i++){
+			int num = Character.getNumericValue(cpf.charAt(i));
+				soma += (num * peso);
+				peso --;
+
+		}
+		 resto = soma % 11;
+		int digito2 = (resto < 2) ? 0 : (11 - resto);
+
+		if (Character.getNumericValue(cpf.charAt(10)) != digito2) {
+			throw new IllegalArgumentException("CPF inválido.");
+		}
 		return cpf;
 	}
 

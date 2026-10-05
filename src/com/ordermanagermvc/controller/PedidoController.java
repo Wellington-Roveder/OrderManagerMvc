@@ -1,5 +1,6 @@
 package com.ordermanagermvc.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import com.ordermanagermvc.business.service.PedidoService;
 import com.ordermanagermvc.business.service.ClienteService;
@@ -15,7 +16,7 @@ public class PedidoController {
         this.clienteService = clienteService;
     }
 
-    public String cadastrar(String descricao, double valor, String cpfCliente) {
+    public String cadastrar(String descricao, BigDecimal valor, String cpfCliente) {
         try {
             Cliente clienteEncontrado = clienteService.obterTodosOsClientes().stream()
                     .filter(c -> c.getCpf().equals(cpfCliente.replaceAll("\\D", ""))) // Remove pontos/traços para comparar

@@ -1,11 +1,13 @@
 package com.ordermanagermvc.view;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 import com.ordermanagermvc.controller.PedidoController;
 import com.ordermanagermvc.controller.ClienteController;
 import com.ordermanagermvc.model.entity.Pedido;
 import com.ordermanagermvc.model.entity.Cliente;
+
 
 public class ConsoleView {
 
@@ -91,7 +93,7 @@ public class ConsoleView {
 
         System.out.print("Valor do item (ex: 49.90): ");
         try {
-            double valor = Double.parseDouble(scanner.nextLine());
+            BigDecimal valor = scanner.nextBigDecimal();
 
             // Enviando o CPF do cliente junto com os dados do pedido para a controller
             String resposta = pedidoController.cadastrar(descricao, valor, cpfCliente);

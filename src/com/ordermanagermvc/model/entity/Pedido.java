@@ -1,12 +1,13 @@
 package com.ordermanagermvc.model.entity;
+import java.math.BigDecimal;
 
 public  class Pedido {
 		private String uuId;
 		private String descricao;
-		private double valor;
-		private Cliente cliente;
+		private BigDecimal valor;
+		private  Cliente cliente;
 		
-		public Pedido (String uuId, String descricao, double valor, Cliente cliente) {
+		public Pedido (String uuId, String descricao, BigDecimal valor, Cliente cliente) {
 			this.uuId = uuId;
 			this.descricao = descricao;
 			this.valor = valor;
@@ -23,8 +24,8 @@ public  class Pedido {
 	    public void setUuId(String uuId) { this.uuId = uuId; }
 	    public String getDescricao() { return descricao; }
 	    public void setDescricao(String descricao) { this.descricao = descricao; }
-	    public double getValor() { return valor; }
-	    public void setValor(double valor) { this.valor = valor; }
+	    public BigDecimal getValor() { return valor; }
+	    public void setValor(BigDecimal valor) { this.valor = valor; }
 		public Cliente getCliente() { return cliente; }
 
 	    @Override
