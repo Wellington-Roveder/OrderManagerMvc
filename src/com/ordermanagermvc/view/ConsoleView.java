@@ -7,17 +7,22 @@ import com.ordermanagermvc.controller.PedidoController;
 import com.ordermanagermvc.controller.ClienteController;
 import com.ordermanagermvc.model.entity.Pedido;
 import com.ordermanagermvc.model.entity.Cliente;
+import com.ordermanagermvc.controller.EnderecoController;
+import com.ordermanagermvc.model.entity.Endereco;
 
 
 public class ConsoleView {
 
     private final PedidoController pedidoController;
     private final ClienteController clienteController;
+    private final EnderecoController enderecoController;
     private final Scanner scanner;
 
-    public ConsoleView(PedidoController pedidoController, ClienteController clienteController) {
+
+    public ConsoleView(PedidoController pedidoController, ClienteController clienteController, EnderecoController enderecoController) {
         this.pedidoController = pedidoController;
         this.clienteController = clienteController;
+        this.enderecoController = enderecoController;
         this.scanner = new Scanner(System.in);
     }
 
@@ -30,6 +35,9 @@ public class ConsoleView {
             System.out.println("3. Incluir Novo Pedido");
             System.out.println("4. Listar Todos os Pedidos");
             System.out.println("5: Listar Pedidos de um Cliente");
+            System.out.println("6: Incluir Endereço a um cliente");
+            System.out.println("7: Pesquisar enderecos de um cliente");
+            System.out.println("8: Consultar todos os enderecos salvos");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -41,6 +49,9 @@ public class ConsoleView {
                     case 3 -> menuIncluir();
                     case 4 -> menuListar();
                     case 5 -> menuListarPedidosPorCliente();
+                    case 6 -> menuIncluirEndereco();
+                    case 7 -> menuPesquisarEnderecosPorCliente();
+                    case 8 -> menuConsultarTodosEnderecos();
                     case 0 -> System.out.println("Saindo do sistema... Até logo!");
                     default -> System.out.println("Opção inválida! Tente novamente.");
                 }
@@ -53,19 +64,19 @@ public class ConsoleView {
 
     private void menuCadastrarCliente() {
         System.out.println("\n--- NOVO CLIENTE ---");
-        
+
         System.out.print("CPF: ");
         String cpf = scanner.nextLine();
-        
+
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
-        
+
         System.out.print("Telefone: ");
         String telefone = scanner.nextLine();
-        
+
         System.out.print("Email: ");
         String email = scanner.nextLine();
-        
+
         String resposta = clienteController.cadastrar(cpf, nome, telefone, email);
         System.out.println(resposta);
     }
@@ -141,4 +152,54 @@ public class ConsoleView {
             pedidosDoCliente.forEach(System.out::println);
         }
     }
-}
+
+
+    private void menuIncluirEndereco () {
+        System.out.println("\n--- NOVO ENDEREÇO ---");
+        System.out.print("CPF do Cliente: ");
+        String cpfCliente = scanner.nextLine();
+
+        System.out.print("Rua: ");
+        String rua = scanner.nextLine();
+
+        System.out.print("Número: ");
+        String numero = scanner.nextLine();
+
+        System.out.print("Cidade: ");
+        String cidade = scanner.nextLine();
+
+        System.out.print("Estado: ");
+        String estado = scanner.nextLine();
+
+        System.out.print("CEP: ");
+        String cep = scanner.nextLine();
+
+        String resposta = enderecoController.cadastrar(rua, numero, cidade, estado, cep, cpfCliente);
+        System.out.println(resposta);
+    }
+
+    private void menuPesquisarEnderecosPorCliente () {
+        System.out.println("\n--- ENDEREÇOS DO CLIENTE ---");
+        System.out.print("Digite o CPF do cliente: ");
+        String cpfCliente = scanner.nextLine();
+
+        List<Endereco> enderecos = enderecoController.listar(cpfCliente);
+
+        if (enderecos.isEmpty()) {
+                System.out.println("Nenhum endereço localizado para este cliente.");
+        } else {
+                enderecos.forEach(System.out::println);
+        }
+    }
+
+    private void menuConsultarTodosEnderecos () {
+        System.out.println("\n--- TODOS OS ENDEREÇOS SALVOS ---");
+        List<Endereco> todosEnderecos = enderecoController.listarTodos();
+
+        if (todosEnderecos.isEmpty()) {
+                System.out.println("Nenhum endereço gravado no sistema.");
+        } else {
+                todosEnderecos.forEach(System.out::println);
+        }
+    }
+    }

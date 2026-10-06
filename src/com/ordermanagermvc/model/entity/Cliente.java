@@ -12,6 +12,7 @@ public class Cliente {
 		private String telefone;
 		private String email;
 		private List<Pedido> pedidos;
+		private List<Endereco> enderecos;
 		
 		
 		public Cliente(String uuId, String cpf, String nome, String telefone, String email) {
@@ -21,6 +22,7 @@ public class Cliente {
 			 this.setTelefone(telefone);
 			 this.setEmail(email);
 			 this.pedidos = new ArrayList<>();
+			 this.enderecos = new ArrayList<>();
 		}
 
 
@@ -77,7 +79,14 @@ public class Cliente {
 		public void adicionarPedido(Pedido pedido) {
 			this.pedidos.add(pedido);
 		}
-		
+
+		public void adcionarEndereco(Endereco endereco){this.enderecos.add(endereco);}
+
+		public List<Endereco> getEndereco() { return enderecos; }
+		public void adicionarEndereco(Endereco endereco) {
+			this.enderecos.add(endereco);
+		}
+
 		@Override
 		public String toString() {
 		    return String.format("CPF: %s | Nome: %s | Telefone: %s | Email: %s", 
