@@ -24,6 +24,10 @@ public class PedidoServiceImpl implements PedidoService {
         if (descricao == null || descricao.trim().isEmpty()) {
             throw new IllegalArgumentException("A descrição do pedido não pode ser vazia.");
         }
+        if(valor == null){
+            throw  new IllegalArgumentException("Valor nao pode estar vazio");
+        }
+
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("O valor do pedido deve ser maior que zero.");
         }
