@@ -1,11 +1,11 @@
 package com.ordermanagermvc.business.impl;
 
 import java.util.List;
-import java.util.UUID;
+
 import com.ordermanagermvc.business.service.ClienteService;
 import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.model.repository.ClienteRepository;
-import java.util.UUID; 
+
 
 
 
@@ -24,10 +24,9 @@ public class ClienteServiceImpl implements ClienteService {
 		telefone = validarTelefone(telefone);
 		email = validarEmail(email);
 
-		String uuidRandom = UUID.randomUUID().toString();
+
 
 		Cliente novoCliente = new Cliente(
-				uuidRandom,
 				cpf,
 				nome,
 				telefone,

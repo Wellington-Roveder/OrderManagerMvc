@@ -1,12 +1,10 @@
 package com.ordermanagermvc.model.entity;
 
 import java.util.ArrayList;
-import com.ordermanagermvc.model.entity.Pedido;
 import java.util.List;
 
 
 public class Cliente {
-		private String uuId;
 		private String cpf;
 		private String nome;
 		private String telefone;
@@ -15,8 +13,7 @@ public class Cliente {
 		private List<Endereco> enderecos;
 		
 		
-		public Cliente(String uuId, String cpf, String nome, String telefone, String email) {
-			 this.uuId = uuId;
+		public Cliente(String cpf, String nome, String telefone, String email) {
 			 this.setCpf(cpf);
 			 this.setNome(nome);
 			 this.setTelefone(telefone);
@@ -24,16 +21,6 @@ public class Cliente {
 			 this.pedidos = new ArrayList<>();
 			 this.enderecos = new ArrayList<>();
 		}
-
-
-		public String getUuId() {
-			return this.uuId;
-		}
-		
-		public void setUuid(String uuId) {
-			this.uuId = uuId;
-		}
-
 
 		public String getCpf() {
 			return cpf;
@@ -80,9 +67,8 @@ public class Cliente {
 			this.pedidos.add(pedido);
 		}
 
-		public void adcionarEndereco(Endereco endereco){this.enderecos.add(endereco);}
 
-		public List<Endereco> getEndereco() { return enderecos; }
+		public List<Endereco> getEnderecos() { return enderecos; }
 		public void adicionarEndereco(Endereco endereco) {
 			this.enderecos.add(endereco);
 		}

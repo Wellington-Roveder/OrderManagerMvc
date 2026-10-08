@@ -16,8 +16,8 @@ public class Endereco {
         this.cep = cep;
         this.cliente = cliente;
 
-        if (cliente != null && !cliente.getEndereco().contains(this)) {
-            cliente.getEndereco().add(this);
+        if (cliente != null && !cliente.getEnderecos().contains(this)) {
+            cliente.getEnderecos().add(this);
         }
 
     }

@@ -1,6 +1,5 @@
 package com.ordermanagermvc.model.repository;
 
-import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.model.entity.Endereco;
 
 import java.util.ArrayList;
