@@ -1,14 +1,19 @@
 package com.ordermanagermvc.model.entity;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class Endereco {
+    private final String uuId;
     private String rua;
     private String numero;
     private  String cidade;
     private  String estado;
     private String cep;
-    private Cliente cliente;
+    private final Cliente cliente;
 
-    public Endereco (String rua, String numero, String cidade, String estado, String cep, Cliente cliente){
+    public Endereco (String uuId, String rua, String numero, String cidade, String estado, String cep, Cliente cliente){
+        this.uuId = uuId;
         this.rua = rua;
         this.numero = numero;
         this.cidade = cidade;
@@ -21,6 +26,7 @@ public class Endereco {
         }
 
     }
+    public String getUuId() { return uuId; }
 
     public String getCep() {
         return cep;
@@ -62,20 +68,36 @@ public class Endereco {
         this.rua = rua;
     }
 
-
-    @Override
-    public String toString() {
-        return String.format("Rua: %s, Nº: %s | Cidade: %s-%s | CEP: %s",
-                rua, numero, cidade, estado, cep);
-    }
-
     public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
+
+
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Endereco endereco = (Endereco) o;
+            return Objects.equals(uuId, endereco.uuId);
+        }
+
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(uuId);
+        }
+
+
+        @Override
+        public String toString() {
+            String clienteCpf = (cliente != null) ? cliente.getCpf() : "Sem cliente";
+            return String.format("ID: %s | Rua: %s, Nº: %s | Cidade: %s-%s | CEP: %s | Cliente CPF: %s",
+                    uuId, rua, numero, cidade, estado, cep, clienteCpf);
+        }
+
+
 }
 
 
