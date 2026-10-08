@@ -2,6 +2,7 @@ package com.ordermanagermvc.business.impl;
 
 import com.ordermanagermvc.business.service.EnderecoService;
 import com.ordermanagermvc.model.entity.Cliente;
+import java.util.UUID;
 import com.ordermanagermvc.model.entity.Endereco;
 import com.ordermanagermvc.model.repository.EnderecoRepository;
 
@@ -33,7 +34,9 @@ public class EnderecoServiceImpl implements EnderecoService {
             throw new IllegalArgumentException("O endereço deve estar associado a um cliente válido.");
         }
 
-        Endereco novoEndereco = new Endereco(rua,numero,cidade,estado,cep, cliente);
+        String uuidRandom = UUID.randomUUID().toString();
+
+        Endereco novoEndereco = new Endereco(uuidRandom,rua,numero,cidade,estado,cep, cliente);
         repository.salvar(novoEndereco);
     }
 
