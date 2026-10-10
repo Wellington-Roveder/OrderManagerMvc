@@ -2,6 +2,8 @@ package com.ordermanagermvc.business.impl;
 
 import java.util.List;
 import java.util.UUID;
+
+import com.ordermanagermvc.business.service.ClienteService;
 import com.ordermanagermvc.business.service.PedidoService;
 import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.model.entity.Pedido;
@@ -11,14 +13,18 @@ import java.math.BigDecimal;
 public class PedidoServiceImpl implements PedidoService {
 
     private final PedidoRepository repository;
+    private final ClienteService clienteService;
 
-    public PedidoServiceImpl(PedidoRepository repository) {
+    public PedidoServiceImpl(PedidoRepository repository, ClienteService clienteService) {
         this.repository = repository;
+        this.clienteService = clienteService;
     }
 
 
     @Override
-    public void criarPedido(String descricao, BigDecimal valor, Cliente cliente) {
+    public void criarPedido(String descricao, BigDecimal valor,  Cliente cliente) {
+        
+
 
         // Validações dos dados de entrada
         if (descricao == null || descricao.trim().isEmpty()) {
@@ -31,9 +37,7 @@ public class PedidoServiceImpl implements PedidoService {
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("O valor do pedido deve ser maior que zero.");
         }
-        if (cliente == null) {
-            throw new IllegalArgumentException("O pedido deve estar associado a um cliente válido.");
-        }
+
 
         String uuidRandom = UUID.randomUUID().toString();
 
