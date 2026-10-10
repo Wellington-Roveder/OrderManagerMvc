@@ -1,10 +1,12 @@
 package com.ordermanagermvc.business.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ordermanagermvc.business.service.ClienteService;
 import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.model.repository.ClienteRepository;
+
 
 
 
@@ -16,6 +18,10 @@ public class ClienteServiceImpl implements ClienteService {
 		this.repository = repository;
 	}
 
+	private String normalizarCpf(String cpf) {
+		return cpf.replaceAll("\\D", "");
+	}
+
 	@Override
 	public void criarCliente(String cpf, String nome, String telefone, String email) {
 
@@ -24,6 +30,9 @@ public class ClienteServiceImpl implements ClienteService {
 		telefone = validarTelefone(telefone);
 		email = validarEmail(email);
 
+		if (repository.buscarPorCpf(cpf).isPresent()) {
+			throw new IllegalArgumentException("Já existe cliente cadastrado com este CPF.");
+		}
 
 
 		Cliente novoCliente = new Cliente(
@@ -40,7 +49,7 @@ public class ClienteServiceImpl implements ClienteService {
 		if (cpf == null || cpf.isBlank()) {
 			throw new IllegalArgumentException("CPF é obrigatório.");
 		}
-		cpf = cpf.replaceAll("\\D", "");
+		cpf = normalizarCpf(cpf);
 		if (cpf.length() != 11) {
 			throw new IllegalArgumentException("CPF deve possuir 11 dígitos.");
 		}
@@ -119,5 +128,13 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public List<Cliente> obterTodosOsClientes() {
 		return repository.listarTodos();
+	}
+
+	@Override
+	public Optional<Cliente> buscarPorCpf(String cpf) {
+		if (cpf == null || cpf.isBlank()) {
+			return Optional.empty();
+		}
+		return repository.buscarPorCpf(normalizarCpf(cpf));
 	}
 }
