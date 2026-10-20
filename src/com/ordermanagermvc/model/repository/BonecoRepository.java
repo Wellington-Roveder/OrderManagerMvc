@@ -9,5 +9,6 @@ public interface BonecoRepository {
     void salvar(Boneco boneco);
     List<Boneco> listarTodos();
     Optional<Boneco> buscarPorId(String uuId);
+    Optional<Integer> quantidadeEstoque(String uuId);
 
 }
