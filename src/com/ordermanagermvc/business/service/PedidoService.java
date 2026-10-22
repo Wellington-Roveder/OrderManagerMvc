@@ -11,6 +11,4 @@ public interface PedidoService {
     void criarPedido(String descricao, BigDecimal valor, Cliente cliente);
     List<Pedido> obterTodosOsPedidos();
     void exportarPedidoCsv(String caminhoArquivo) throws IOException;
-    void iniciarProcessamentoAssincrono();
-
 }
