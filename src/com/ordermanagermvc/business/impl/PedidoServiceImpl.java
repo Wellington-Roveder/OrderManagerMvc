@@ -1,5 +1,6 @@
 package com.ordermanagermvc.business.impl;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,11 @@ import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.model.entity.Pedido;
 import com.ordermanagermvc.model.repository.PedidoRepository;
 import java.math.BigDecimal;
+import java.io.BufferedWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class PedidoServiceImpl implements PedidoService {
 
@@ -51,5 +57,35 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public List<Pedido> obterTodosOsPedidos() {
         return repository.listarTodos();
+    }
+
+    @Override
+    public void exportarPedidoCsv(String caminhoArquivo) throws IOException {
+            List<Pedido> pedidos = repository.listarTodos();
+
+            Path path = Paths.get(caminhoArquivo);
+
+            if (path.getParent() != null) {
+                Files.createDirectories(path.getParent());
+            }
+
+            try (BufferedWriter writer = Files.newBufferedWriter(path)){
+                writer.write("ID;ClienteID;Total;Status");
+                writer.newLine();
+
+
+                for (Pedido p : pedidos){
+                    String linha = String.format("%s;%s;%.2f;%s",
+                            p.getUuId(),
+                            p.getDescricao(),
+                            p.getValor(),
+                            p.getCliente() != null ? p.getCliente().getCpf() : "N/A"
+                    );
+
+                    writer.write(linha);
+                    writer.newLine();
+                }
+            }
+
     }
 }
