@@ -1,5 +1,6 @@
 package com.ordermanagermvc.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import com.ordermanagermvc.business.service.PedidoService;
@@ -38,4 +39,17 @@ public class PedidoController {
     public List<Pedido> listar() {
         return service.obterTodosOsPedidos(); 
     }
+
+    public String exportarRelatorio(String caminhoArquivo) {
+        if (caminhoArquivo == null || caminhoArquivo.trim().isEmpty()) {
+            return "❌ Erro: O caminho do arquivo não pode ser vazio.";
+        }
+        try {
+            service.exportarPedidoCsv(caminhoArquivo);
+            return "🎉 Sucesso: Relatório exportado com sucesso em: " + caminhoArquivo;
+        } catch (IOException e) {
+            return "❌ Erro ao gerar o arquivo CSV: " + e.getMessage();
+        }
+    }
+
 }

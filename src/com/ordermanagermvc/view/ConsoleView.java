@@ -38,6 +38,7 @@ public class ConsoleView {
             System.out.println("6: Incluir Endereço a um cliente");
             System.out.println("7: Pesquisar enderecos de um cliente");
             System.out.println("8: Consultar todos os enderecos salvos");
+            System.out.println("9: Exportar relatorio de Pedidos em CSV");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -52,6 +53,7 @@ public class ConsoleView {
                     case 6 -> menuIncluirEndereco();
                     case 7 -> menuPesquisarEnderecosPorCliente();
                     case 8 -> menuConsultarTodosEnderecos();
+                    case 9 -> menuExportarPedidos();
                     case 0 -> System.out.println("Saindo do sistema... Até logo!");
                     default -> System.out.println("Opção inválida! Tente novamente.");
                 }
@@ -202,4 +204,21 @@ public class ConsoleView {
                 todosEnderecos.forEach(System.out::println);
         }
     }
+
+    private void menuExportarPedidos(){
+        System.out.println("\n--- EXPORTAR PEDIDOS PARA CSV ---");
+        System.out.print("Digite o caminho/nome do arquivo (ex: relatorios/pedidos.csv): ");
+
+        String caminho = scanner.nextLine();
+
+        String resposta = pedidoController.exportarRelatorio(caminho);
+
+        System.out.println(resposta);
     }
+
+
+
+
+    }
+
+
