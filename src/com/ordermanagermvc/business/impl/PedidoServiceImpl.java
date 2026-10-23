@@ -88,4 +88,19 @@ public class PedidoServiceImpl implements PedidoService {
             }
 
     }
+
+    @Override
+    public void iniciarProcessamentoAssincrono() {
+        PedidoProcessor tarefa1 = new PedidoProcessor("Lote de Pedidos #01 (Sudeste)");
+        PedidoProcessor tarefa2 = new PedidoProcessor("Lote de Pedidos #02 (Nordeste)");
+        PedidoProcessor tarefa3 = new PedidoProcessor("Lote de Pedidos #03 (Centro-Oeste)");
+
+        Thread t1 = new Thread(tarefa1);
+        Thread t2 = new Thread(tarefa2);
+        Thread t3 = new Thread(tarefa3);
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
 }
