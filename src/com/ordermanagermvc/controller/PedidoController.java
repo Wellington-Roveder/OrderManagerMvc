@@ -52,4 +52,9 @@ public class PedidoController {
         }
     }
 
+    public String simularProcessamentoParalelo(){
+        service.iniciarProcessamentoAssincrono();
+        return "Threads de simulação disparadas com sucesso! Verifique o console enquanto navega.";
+    }
+
 }
