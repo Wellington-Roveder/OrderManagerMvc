@@ -39,6 +39,7 @@ public class ConsoleView {
             System.out.println("7: Pesquisar enderecos de um cliente");
             System.out.println("8: Consultar todos os enderecos salvos");
             System.out.println("9: Exportar relatorio de Pedidos em CSV");
+            System.out.println("10: [Simulação] Processar Pedidos em Paralelo (Threads)");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -54,6 +55,7 @@ public class ConsoleView {
                     case 7 -> menuPesquisarEnderecosPorCliente();
                     case 8 -> menuConsultarTodosEnderecos();
                     case 9 -> menuExportarPedidos();
+                    case 10 -> menuProcessamentoParalelo();
                     case 0 -> System.out.println("Saindo do sistema... Até logo!");
                     default -> System.out.println("Opção inválida! Tente novamente.");
                 }
@@ -212,6 +214,13 @@ public class ConsoleView {
         String caminho = scanner.nextLine();
 
         String resposta = pedidoController.exportarRelatorio(caminho);
+
+        System.out.println(resposta);
+    }
+
+    private void menuProcessamentoParalelo(){
+        System.out.println("\n--- INICIANDO SIMULAÇÃO ASSÍNCRONA ---");
+        String resposta = pedidoController.simularProcessamentoParalelo();
 
         System.out.println(resposta);
     }
