@@ -19,11 +19,10 @@ import java.nio.file.Paths;
 public class PedidoServiceImpl implements PedidoService {
 
     private final PedidoRepository repository;
-    private final ClienteService clienteService;
 
-    public PedidoServiceImpl(PedidoRepository repository, ClienteService clienteService) {
+
+    public PedidoServiceImpl(PedidoRepository repository) {
         this.repository = repository;
-        this.clienteService = clienteService;
     }
 
 
