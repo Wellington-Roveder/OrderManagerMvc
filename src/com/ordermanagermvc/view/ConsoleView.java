@@ -2,6 +2,7 @@ package com.ordermanagermvc.view;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import com.ordermanagermvc.controller.PedidoController;
 import com.ordermanagermvc.controller.ClienteController;
@@ -116,7 +117,7 @@ public class ConsoleView {
             System.out.println(resposta);
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Erro: O valor digitado é inválido.");
+            System.out.println("Erro: O valor digitado é inválido.");
         }
     }
 
@@ -137,23 +138,24 @@ public class ConsoleView {
         String cpf = scanner.nextLine().replaceAll("\\D", "");
 
         // Localiza o cliente através do controller de clientes
-        Cliente cliente = clienteController.listar().stream()
-                .filter(c -> c.getCpf().equals(cpf))
-                .findFirst()
-                .orElse(null);
+        Optional<Cliente> clienteOptional = clienteController.buscarPorCpf(cpf);
 
-        if (cliente == null) {
-            System.out.println("❌ Erro: Cliente não encontrado.");
-            return;
-        }
+        if(clienteOptional.isPresent()){
+            Cliente cliente = clienteOptional.get();
 
-        System.out.println("\nPedidos de " + cliente.getNome() + ":");
-        List<Pedido> pedidosDoCliente = cliente.getPedidos(); // Busca a lista conectada na memória
+            System.out.println("Cliente Encontrado!!");
 
-        if (pedidosDoCliente.isEmpty()) {
-            System.out.println("Este cliente ainda não possui pedidos cadastrados.");
-        } else {
-            pedidosDoCliente.forEach(System.out::println);
+            System.out.println("\nPedidos de " + cliente.getNome() + ":");
+            List<Pedido> pedidosDoCliente = cliente.getPedidos();
+
+            if (pedidosDoCliente.isEmpty()) {
+                System.out.println("Este cliente ainda não possui pedidos cadastrados.");
+            } else {
+                pedidosDoCliente.forEach(System.out::println);
+            }
+
+        }else{
+            System.out.println("Erro: Nenhum cliente cadastrado com o CPF " + cpf);
         }
     }
 

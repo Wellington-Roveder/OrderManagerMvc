@@ -3,6 +3,8 @@ package com.ordermanagermvc.controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+
 import com.ordermanagermvc.business.service.PedidoService;
 import com.ordermanagermvc.business.service.ClienteService;
 import com.ordermanagermvc.model.entity.Cliente;
@@ -19,20 +21,20 @@ public class PedidoController {
 
     public String cadastrar(String descricao, BigDecimal valor, String cpfCliente) {
         try {
-            Cliente clienteEncontrado = clienteService.obterTodosOsClientes().stream()
-                    .filter(c -> c.getCpf().equals(cpfCliente.replaceAll("\\D", ""))) // Remove pontos/traços para comparar
-                    .findFirst()
-                    .orElse(null);
+            Optional<Cliente> clienteOptional = clienteService.buscarPorCpf(cpfCliente);
 
-            if (clienteEncontrado == null){
-                return "Erro: Nenhum cliente encontrado com o CPF: " + cpfCliente;
+            if(clienteOptional.isPresent()) {
+                Cliente clienteEncontrado = clienteOptional.get();
+
+                service.criarPedido(descricao, valor, clienteEncontrado);
+                return "Sucesso: Pedido registrado com sucesso!";
+            }else{
+                return "Nenhum Cliente encontrado!!";
             }
-            service.criarPedido(descricao, valor, clienteEncontrado);
-            return "✅ Sucesso: Pedido registrado com sucesso!";
         } catch (IllegalArgumentException e) {
-            return "❌ Erro de validação: " + e.getMessage();
+            return "Erro de validação: " + e.getMessage();
         } catch (Exception e) {
-            return "❌ Erro inesperado: " + e.getMessage();
+            return "Erro inesperado: " + e.getMessage();
         }
     }
 
@@ -42,13 +44,13 @@ public class PedidoController {
 
     public String exportarRelatorio(String caminhoArquivo) {
         if (caminhoArquivo == null || caminhoArquivo.trim().isEmpty()) {
-            return "❌ Erro: O caminho do arquivo não pode ser vazio.";
+            return "Erro: O caminho do arquivo não pode ser vazio.";
         }
         try {
             service.exportarPedidoCsv(caminhoArquivo);
-            return "🎉 Sucesso: Relatório exportado com sucesso em: " + caminhoArquivo;
+            return "Sucesso: Relatório exportado com sucesso em: " + caminhoArquivo;
         } catch (IOException e) {
-            return "❌ Erro ao gerar o arquivo CSV: " + e.getMessage();
+            return "Erro ao gerar o arquivo CSV: " + e.getMessage();
         }
     }
 
