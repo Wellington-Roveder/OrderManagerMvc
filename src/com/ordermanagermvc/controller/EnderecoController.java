@@ -35,9 +35,9 @@ public class EnderecoController {
             return "✅ Sucesso: Endereço registrado com sucesso!";
 
         } catch (IllegalArgumentException e) {
-            return "❌ Erro de validação: " + e.getMessage();
+            return "Erro de validação: " + e.getMessage();
         } catch (Exception e) {
-            return "❌ Erro inesperado: " + e.getMessage();
+            return "Erro inesperado: " + e.getMessage();
         }
     }
     public List<Endereco> listarTodos(){

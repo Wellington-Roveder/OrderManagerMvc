@@ -132,9 +132,10 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public Optional<Cliente> buscarPorCpf(String cpf) {
-		if (cpf == null || cpf.isBlank()) {
-			return Optional.empty();
-		}
-		return repository.buscarPorCpf(normalizarCpf(cpf));
+		return Optional.ofNullable(cpf)
+				.filter(c -> !cpf.isBlank())
+				.map(this::normalizarCpf)
+				.flatMap(repository::buscarPorCpf);
+
 	}
 }
