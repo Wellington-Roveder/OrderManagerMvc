@@ -10,11 +10,20 @@ public class Boneco {
     private int quantidadeEstoque;
 
 
-    public Boneco(String uuId, String nome, BigDecimal preco, String categoria, int quantidadeEstoque){
+    public Boneco(String uuId, String nome, BigDecimal preco, String categoria){
         this.uuId = uuId;
         this.nome = nome;
         this.preco = preco;
         this.categoria = categoria;
+        this.quantidadeEstoque = 0;
+    }
+
+    public Boneco(String uuId, String nome, BigDecimal preco, String categoria, int quantidadeEstoque){
+        this(uuId, nome, preco, categoria);
+
+        if(quantidadeEstoque < 0){
+            throw new IllegalArgumentException("O estoque não pode ser negativo.");
+        }
         this.quantidadeEstoque = quantidadeEstoque;
     }
 
