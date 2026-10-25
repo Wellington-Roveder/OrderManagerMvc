@@ -24,7 +24,7 @@ public class Main {
         EnderecoRepository enderecoRepository = new MemoryEnderecoRepository();
 
         ClienteService clienteService = new ClienteServiceImpl(clienteRepository);
-        PedidoService pedidoService = new PedidoServiceImpl(pedidoRepository, clienteService);
+        PedidoService pedidoService = new PedidoServiceImpl(pedidoRepository);
         EnderecoService enderecoService = new EnderecoServiceImpl(enderecoRepository);
 
         PedidoController pedidoController = new PedidoController(pedidoService, clienteService);
