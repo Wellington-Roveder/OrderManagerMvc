@@ -10,5 +10,5 @@ public interface BonecoRepository {
     List<Boneco> listarTodos();
     Optional<Boneco> buscarPorId(String uuId);
     Optional<Integer> quantidadeEstoque(String uuId);
-    void adicionarEstoque(String uuId, int quantidade);
+    void adicionarEstoque(int quantidade);
 }

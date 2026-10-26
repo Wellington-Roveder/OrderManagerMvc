@@ -33,20 +33,13 @@ public class MemoryBonecoRepository implements BonecoRepository{
         return Optional.ofNullable(bancoEmMemoria.get(uuId))
                 .map(Boneco::getQuantidadeEstoque);
     }
+
     @Override
-    public void adicionarEstoque(String uuId, int quantidade) {
-
-        Boneco bonecoEncontrado = bancoEmMemoria.get(uuId);
-
-
-        if (bonecoEncontrado == null) {
-            throw new IllegalArgumentException("Boneco com o ID informado não foi encontrado.");
+    public void adicionarEstoque(int quantidade) {
+        if (quantidade < 0){
+            throw new IllegalArgumentException("O estoque não pode ser negativo.");
         }
-
-
-        bonecoEncontrado.setQuantidadeEstoque(bonecoEncontrado.getQuantidadeEstoque() + quantidade);
-
-        System.out.println("[DB] Estoque atualizado com sucesso na memória.");
+        boneco.setQuantidadeEstoque(boneco.getQuantidadeEstoque() + quantidade);
     }
 
 }
