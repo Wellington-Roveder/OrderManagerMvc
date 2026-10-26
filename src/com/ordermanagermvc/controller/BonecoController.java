@@ -34,13 +34,4 @@ public class BonecoController {
     public Optional<Integer> quantidadeEstoque(String uuId){
         return service.quantidadeEstoque(uuId);
     }
-
-    public String adicionarQuantidade(String uuId,int quantidade){
-        try{
-            service.adcionarQuantidade(uuId, quantidade);
-        }catch (Exception e){
-            return "Erro ao adicionar quantidade" + e.getMessage();
-        }
-        return "Sucesso quantidade atualizada";
-    }
 }

@@ -8,7 +8,6 @@ import java.util.Scanner;
 import com.ordermanagermvc.controller.BonecoController;
 import com.ordermanagermvc.controller.PedidoController;
 import com.ordermanagermvc.controller.ClienteController;
-import com.ordermanagermvc.model.entity.Boneco;
 import com.ordermanagermvc.model.entity.Pedido;
 import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.controller.EnderecoController;
@@ -45,10 +44,8 @@ public class ConsoleView {
             System.out.println("7: Pesquisar enderecos de um cliente");
             System.out.println("8: Consultar todos os enderecos salvos");
             System.out.println("9: Exportar relatorio de Pedidos em CSV");
-            System.out.println("10: Criar Estoque de Bonecos");
-            System.out.println("11: Exibir Bonecos no Estoque");
-            System.out.println("12: Cadastrar Quantidade no Estoque");
-            System.out.println("13: [Simulação] Processar Pedidos em Paralelo (Threads)");
+            System.out.println("10: Catalogar Estoque de Bonecos");
+            System.out.println("11: [Simulação] Processar Pedidos em Paralelo (Threads)");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -64,10 +61,8 @@ public class ConsoleView {
                     case 7 -> menuPesquisarEnderecosPorCliente();
                     case 8 -> menuConsultarTodosEnderecos();
                     case 9 -> menuExportarPedidos();
-                    case 10 -> menuCriarBonecos();
-                    case 11 -> menuExibirBoneco();
-                    case 12 -> menuAdicionarEstoque();
-                    case 13 -> menuProcessamentoParalelo();
+                    case 10 -> menuCatalogoBonecos();
+                    case 11 -> menuProcessamentoParalelo();
                     case 0 -> System.out.println("Saindo do sistema... Até logo!");
                     default -> System.out.println("Opção inválida! Tente novamente.");
                 }
@@ -236,10 +231,9 @@ public class ConsoleView {
         String resposta = pedidoController.simularProcessamentoParalelo();
 
         System.out.println(resposta);
-        System.out.println("Pode continuar a navegação");
     }
 
-    private void menuCriarBonecos(){
+    private void menuCatalogoBonecos(){
         System.out.println("\n--- INICIANDO CATALOGO DE BONECOS ---");
         System.out.println("\n---Novo Boneco: ");
         System.out.println("Digite o nome: ");
@@ -258,36 +252,6 @@ public class ConsoleView {
             System.out.println("Erro: O valor digitado é inválido.");
         }
 
-    }
-
-    private void menuExibirBoneco(){
-        System.out.println("--- BONECOS DO CATALOGO ---");
-        List<Boneco> todosBonecos = bonecoController.listarTodos();
-
-        if(todosBonecos.isEmpty()){
-            System.out.println("Catalogo de Bonecos está vazio");
-
-        }else{
-            todosBonecos.forEach(System.out::println);
-        }
-    }
-
-    private void menuAdicionarEstoque() {
-        System.out.println("--- Adicionar Quantidade de Bonecos ---");
-
-        try {
-            System.out.println("Digite a quantidade:");
-            int quantidade = Integer.parseInt(scanner.nextLine());
-
-            System.out.println("Digite o Id do Boneco:");
-            String id = scanner.nextLine();
-
-            String resposta = bonecoController.adicionarQuantidade(id, quantidade);
-            System.out.println(resposta);
-
-        } catch (NumberFormatException e) {
-            System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
-        }
     }
 
 
