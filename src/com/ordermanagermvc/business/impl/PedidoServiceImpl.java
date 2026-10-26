@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import com.ordermanagermvc.business.service.ClienteService;
+
 import com.ordermanagermvc.business.service.PedidoService;
 import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.model.entity.Pedido;
@@ -14,11 +14,16 @@ import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 public class PedidoServiceImpl implements PedidoService {
 
     private final PedidoRepository repository;
+    ExecutorService pool = Executors.newFixedThreadPool(2);
 
 
     public PedidoServiceImpl(PedidoRepository repository) {
@@ -90,16 +95,19 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public void iniciarProcessamentoAssincrono() {
+
         PedidoProcessor tarefa1 = new PedidoProcessor("Lote de Pedidos #01 (Sudeste)");
         PedidoProcessor tarefa2 = new PedidoProcessor("Lote de Pedidos #02 (Nordeste)");
         PedidoProcessor tarefa3 = new PedidoProcessor("Lote de Pedidos #03 (Centro-Oeste)");
+        PedidoProcessor tarefa4 = new PedidoProcessor("Lote de Pedidos #04 (Sul)");
 
-        Thread t1 = new Thread(tarefa1);
-        Thread t2 = new Thread(tarefa2);
-        Thread t3 = new Thread(tarefa3);
+        pool.submit(tarefa1);
+        pool.submit(tarefa2);
+        pool.submit(tarefa3);
+        pool.submit(tarefa4);
 
-        t1.start();
-        t2.start();
-        t3.start();
+        pool.shutdown();
+
+
     }
 }
