@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+
+import com.ordermanagermvc.controller.BonecoController;
 import com.ordermanagermvc.controller.PedidoController;
 import com.ordermanagermvc.controller.ClienteController;
 import com.ordermanagermvc.model.entity.Pedido;
@@ -17,13 +19,15 @@ public class ConsoleView {
     private final PedidoController pedidoController;
     private final ClienteController clienteController;
     private final EnderecoController enderecoController;
+    private final BonecoController bonecoController;
     private final Scanner scanner;
 
 
-    public ConsoleView(PedidoController pedidoController, ClienteController clienteController, EnderecoController enderecoController) {
+    public ConsoleView(PedidoController pedidoController, ClienteController clienteController, EnderecoController enderecoController, BonecoController bonecoController) {
         this.pedidoController = pedidoController;
         this.clienteController = clienteController;
         this.enderecoController = enderecoController;
+        this.bonecoController = bonecoController;
         this.scanner = new Scanner(System.in);
     }
 
@@ -40,7 +44,8 @@ public class ConsoleView {
             System.out.println("7: Pesquisar enderecos de um cliente");
             System.out.println("8: Consultar todos os enderecos salvos");
             System.out.println("9: Exportar relatorio de Pedidos em CSV");
-            System.out.println("10: [Simulação] Processar Pedidos em Paralelo (Threads)");
+            System.out.println("10: Catalogar Estoque de Bonecos");
+            System.out.println("11: [Simulação] Processar Pedidos em Paralelo (Threads)");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -56,7 +61,8 @@ public class ConsoleView {
                     case 7 -> menuPesquisarEnderecosPorCliente();
                     case 8 -> menuConsultarTodosEnderecos();
                     case 9 -> menuExportarPedidos();
-                    case 10 -> menuProcessamentoParalelo();
+                    case 10 -> menuCatalogoBonecos();
+                    case 11 -> menuProcessamentoParalelo();
                     case 0 -> System.out.println("Saindo do sistema... Até logo!");
                     default -> System.out.println("Opção inválida! Tente novamente.");
                 }
@@ -225,6 +231,27 @@ public class ConsoleView {
         String resposta = pedidoController.simularProcessamentoParalelo();
 
         System.out.println(resposta);
+    }
+
+    private void menuCatalogoBonecos(){
+        System.out.println("\n--- INICIANDO CATALOGO DE BONECOS ---");
+        System.out.println("\n---Novo Boneco: ");
+        System.out.println("Digite o nome: ");
+        String nome = scanner.nextLine();
+        System.out.println("Digite a Categoria: ");
+        String categoria = scanner.nextLine();
+        System.out.println("Digite o valor: ");
+        try {
+            String valorTexto = scanner.nextLine().replace(",", ".");
+            BigDecimal preco = new BigDecimal(valorTexto);
+            String resposta = bonecoController.cadastrarBoneco(nome, preco, categoria);
+
+            System.out.println(resposta);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: O valor digitado é inválido.");
+        }
+
     }
 
 
