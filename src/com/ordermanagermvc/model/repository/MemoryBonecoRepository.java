@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public class MemoryBonecoRepository implements BonecoRepository{
     private final Map<String, Boneco> bancoEmMemoria = new LinkedHashMap<>();
+    private  Boneco boneco;
 
     @Override
     public void salvar(Boneco boneco) {
@@ -32,4 +33,13 @@ public class MemoryBonecoRepository implements BonecoRepository{
         return Optional.ofNullable(bancoEmMemoria.get(uuId))
                 .map(Boneco::getQuantidadeEstoque);
     }
+
+    @Override
+    public void adicionarEstoque(int quantidade) {
+        if (quantidade < 0){
+            throw new IllegalArgumentException("O estoque não pode ser negativo.");
+        }
+        boneco.setQuantidadeEstoque(boneco.getQuantidadeEstoque() + quantidade);
+    }
+
 }

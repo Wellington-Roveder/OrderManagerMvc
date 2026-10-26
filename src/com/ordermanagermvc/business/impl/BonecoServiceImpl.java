@@ -46,4 +46,10 @@ public class BonecoServiceImpl implements BonecoService {
                 .filter(id -> !id.isBlank())
                 .flatMap(repository::quantidadeEstoque);
     }
+
+    @Override
+    public void adcionarQuantidade(int quantidade) {
+        repository.adicionarEstoque(quantidade);
+    }
+
 }
