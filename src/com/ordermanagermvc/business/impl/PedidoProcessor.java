@@ -10,11 +10,11 @@ public class PedidoProcessor implements Runnable{
     @Override
     public void run() {
         try{
-            System.out.println("\n[THREAD - INÍCIO] Simulador pegou o " + lotePedido);
+            System.out.println(Thread.currentThread().getName() + "\n Simulador pegou o " + lotePedido);
             Thread.sleep(4000);
-            System.out.println("\n[THREAD - SUCESSO] " + lotePedido + " processado e finalizado!");
+            System.out.println(Thread.currentThread().getName() + lotePedido + " processado e finalizado!");
         } catch (InterruptedException e){
-            System.out.println("\n[THREAD - ERRO] O processamento do " + lotePedido + " foi interrompido.");
+            System.out.println(Thread.currentThread().getName() + "\nprocessamento do " + lotePedido + " foi interrompido.");
             Thread.currentThread().interrupt();
         }
     }

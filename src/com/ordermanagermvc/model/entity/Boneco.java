@@ -1,6 +1,7 @@
 package com.ordermanagermvc.model.entity;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Boneco {
     private String uuId;
@@ -66,4 +67,10 @@ public class Boneco {
     public void setQuantidadeEstoque(int quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
     }
+
+    @Override
+    public String toString(){
+        return "Boneco " + nome + categoria + preco;
+    }
 }
+
