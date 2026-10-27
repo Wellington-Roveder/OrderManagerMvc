@@ -47,7 +47,8 @@ public class ConsoleView {
             System.out.println("9: Exportar relatorio de Pedidos em CSV");
             System.out.println("10: Criar Estoque de Bonecos");
             System.out.println("11: Exibir Bonecos no Estoque");
-            System.out.println("12: [Simulação] Processar Pedidos em Paralelo (Threads)");
+            System.out.println("12: Cadastrar Quantidade no Estoque");
+            System.out.println("13: [Simulação] Processar Pedidos em Paralelo (Threads)");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -65,7 +66,8 @@ public class ConsoleView {
                     case 9 -> menuExportarPedidos();
                     case 10 -> menuCriarBonecos();
                     case 11 -> menuExibirBoneco();
-                    case 12 -> menuProcessamentoParalelo();
+                    case 12 -> menuAdicionarEstoque();
+                    case 13 -> menuProcessamentoParalelo();
                     case 0 -> System.out.println("Saindo do sistema... Até logo!");
                     default -> System.out.println("Opção inválida! Tente novamente.");
                 }
@@ -267,6 +269,24 @@ public class ConsoleView {
 
         }else{
             todosBonecos.forEach(System.out::println);
+        }
+    }
+
+    private void menuAdicionarEstoque() {
+        System.out.println("--- Adicionar Quantidade de Bonecos ---");
+
+        try {
+            System.out.println("Digite a quantidade:");
+            int quantidade = Integer.parseInt(scanner.nextLine());
+
+            System.out.println("Digite o Id do Boneco:");
+            String id = scanner.nextLine();
+
+            String resposta = bonecoController.adicionarQuantidade(id, quantidade);
+            System.out.println(resposta);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
         }
     }
 
