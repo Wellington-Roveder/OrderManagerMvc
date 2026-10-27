@@ -84,8 +84,8 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return "Cliente{" +
-				" cpf='" + cpf + '\'' +
-				" nome='" + nome + '\'' +
+				" cpf= " + cpf + '\'' +
+				" nome= " + nome + '\'' +
 				'}';
 	}
 

@@ -69,8 +69,14 @@ public class Boneco {
     }
 
     @Override
-    public String toString(){
-        return "Boneco " + nome + categoria + preco;
+    public String toString() {
+        return "Boneco {" +
+                " id= " + uuId + '\'' +
+                " Nome= " + nome + '\'' +
+                " Categoria= " + categoria + '\'' +
+                " Preco= " + preco + '\'' +
+                " Quantidade no Estoque= " + quantidadeEstoque +'\'' +
+                '}';
     }
 }
 
