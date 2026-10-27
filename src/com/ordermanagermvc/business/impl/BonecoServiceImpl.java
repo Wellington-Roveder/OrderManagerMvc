@@ -48,8 +48,8 @@ public class BonecoServiceImpl implements BonecoService {
     }
 
     @Override
-    public void adcionarQuantidade(int quantidade) {
-        repository.adicionarEstoque(quantidade);
+    public void adcionarQuantidade(String uuId,int quantidade) {
+        repository.adicionarEstoque(uuId, quantidade);
     }
 
 }
