@@ -27,6 +27,8 @@ public class PedidoServiceImpl implements PedidoService {
     private final PedidoRepository pedidoRepository;
     private final ClienteService clienteService;
     private final BonecoService bonecoService;
+    private static final String CSV_HEADER = "ID;ClienteID;Total;Status";
+    private static final String CSV_LINE_FORMAT = "%s;%s;%s;%s";
 
 
     ExecutorService pool = Executors.newFixedThreadPool(2);
@@ -83,16 +85,16 @@ public class PedidoServiceImpl implements PedidoService {
             }
 
             try (BufferedWriter writer = Files.newBufferedWriter(path)){
-                writer.write("ID;ClienteID;Total;Status");
+                writer.write(CSV_HEADER);
                 writer.newLine();
 
 
                 for (Pedido p : pedidos){
-                    String linha = String.format("%s;%s",
-                            p.getUuId(),
-                            p.getCliente() != null ? p.getCliente().getCpf() : "N/A"
-                    );
+                    String cpf = p.getCliente() != null ? p.getCliente().getCpf() : "N/A";
+                    BigDecimal total = p.valorTotal() != null ? p.valorTotal() : BigDecimal.ZERO;
+                    String status = p.setStatus() != null ? p.setStatus() : "N/A";
 
+                    String linha = String.format(CSV_LINE_FORMAT, p.getUuId(), cpf, total, status);
                     writer.write(linha);
                     writer.newLine();
                 }

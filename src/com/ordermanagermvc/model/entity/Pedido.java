@@ -37,6 +37,11 @@ public class Pedido {
 		return  precoTotal;
 	}
 
+	public String setStatus(){
+		String status = "Teste Status";
+		return status;
+	}
+
 
 
 	@Override
