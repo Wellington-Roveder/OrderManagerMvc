@@ -5,10 +5,12 @@ import java.math.BigDecimal;
 public class ItemPedido {
     private Integer quantidade;
     private BigDecimal precoUnitario;
+    private Boneco boneco;
 
-    public ItemPedido(int quantidade, BigDecimal precoUnitario ){
+    public ItemPedido(int quantidade, BigDecimal precoUnitario , Boneco boneco){
         this.precoUnitario = precoUnitario;
         this.quantidade = quantidade;
+        this.boneco = boneco;
     }
 
     public int getQuantidade() {

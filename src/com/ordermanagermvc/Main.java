@@ -28,12 +28,12 @@ public class Main {
         BonecoRepository bonecoRepository = new MemoryBonecoRepository();
 
         ClienteService clienteService = new ClienteServiceImpl(clienteRepository);
-        PedidoService pedidoService = new PedidoServiceImpl(pedidoRepository);
         EnderecoService enderecoService = new EnderecoServiceImpl(enderecoRepository);
         BonecoService bonecoService = new BonecoServiceImpl(bonecoRepository);
+        PedidoService pedidoService = new PedidoServiceImpl(pedidoRepository, clienteService, bonecoService);
 
 
-        PedidoController pedidoController = new PedidoController(pedidoService, clienteService);
+        PedidoController pedidoController = new PedidoController(pedidoService);
         ClienteController clienteController = new ClienteController(clienteService);
         EnderecoController enderecoController = new EnderecoController(enderecoService, clienteService);
         BonecoController bonecoController = new BonecoController(bonecoService);
