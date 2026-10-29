@@ -115,20 +115,20 @@ public class ConsoleView {
         System.out.print("CPF do Cliente: ");
         String cpfCliente = scanner.nextLine();
 
-        System.out.print("Descrição do item: ");
-        String descricao = scanner.nextLine();
+        menuExibirBoneco();
 
-        System.out.print("Valor do item (ex: 49.90): ");
-        try {
-            String valorTexto = scanner.nextLine().replace(",", ".");
-            BigDecimal valor = new BigDecimal(valorTexto);
+        System.out.println("\nDigite o ID do Boneco escolhido: ");
+        String bonecoId = scanner.nextLine();
 
-            // Enviando o CPF do cliente junto com os dados do pedido para a controller
-            String resposta = pedidoController.cadastrar(descricao, valor, cpfCliente);
+        System.out.print("Quantidade desejada: ");
+        try{
+            int quantidade = Integer.parseInt(scanner.nextLine());
+
+            String resposta = pedidoController.cadastrar(quantidade, cpfCliente, bonecoId);
             System.out.println(resposta);
 
-        } catch (NumberFormatException e) {
-            System.out.println("Erro: O valor digitado é inválido.");
+        }catch(NumberFormatException e){
+            System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
         }
     }
 
