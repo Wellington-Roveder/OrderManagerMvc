@@ -1,18 +1,18 @@
 package com.ordermanagermvc.model.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Pedido {
 	private final String uuId;
-	private String descricao;
-	private BigDecimal valor;
 	private final Cliente cliente;
+	private List<ItemPedido> items = new ArrayList<>();
 
-	public Pedido(String uuId, String descricao, BigDecimal valor, Cliente cliente) {
+
+	public Pedido(String uuId, Cliente cliente) {
 		this.uuId = uuId;
-		this.descricao = descricao;
-		this.valor = valor;
 		this.cliente = cliente;
 
 		if (cliente != null && !cliente.getPedidos().contains(this)) {
@@ -21,11 +21,22 @@ public class Pedido {
 	}
 
 	public String getUuId() { return uuId; }
-	public String getDescricao() { return descricao; }
-	public void setDescricao(String descricao) { this.descricao = descricao; }
-	public BigDecimal getValor() { return valor; }
-	public void setValor(BigDecimal valor) { this.valor = valor; }
 	public Cliente getCliente() { return cliente; }
+
+
+	public void adicionarItem(ItemPedido item){
+		items.add(item);
+	}
+
+	public BigDecimal valorTotal(){
+		BigDecimal precoTotal = BigDecimal.ZERO;
+		for (ItemPedido item: items){
+			precoTotal = precoTotal.add(item.subtotal());
+
+		}
+		return  precoTotal;
+	}
+
 
 
 	@Override
@@ -44,6 +55,7 @@ public class Pedido {
 
 	@Override
 	public String toString() {
-		return "Pedido #" + uuId + " - " + descricao + " (R$ " + valor + ")";
+		return "Pedido #" + uuId + " | Cliente: " + cliente.getNome() +
+				" | Qtd Itens: " + items.size() + " | Total: R$ " + valorTotal();
 	}
 }
