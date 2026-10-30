@@ -3,15 +3,18 @@
 
 # Packages
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 *.war
 *.ear
 
-# Build directories
+# Build directories and tools
 target/
 build/
 .gradle/
+bin/
+classes/
 
-# IDE specific files
+# IDE specific files (IntelliJ, Eclipse)
 .idea/
 *.iml
 .project
@@ -26,6 +29,6 @@ Thumbs.db
 *.log
 logs/
 
-# Sensitive application properties (use environment variables instead)
+# Sensitive application properties
 **/application-prod.properties
 **/application-secret.yml
