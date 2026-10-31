@@ -15,19 +15,29 @@ repositories {
 }
 
 dependencies {
+    // Dependências do JUnit 5 para escrita e execução dos testes
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 sourceSets {
     main {
         java {
-            srcDirs = ['src']
+            // Ajustado para mapear corretamente a pasta padrão de código do seu projeto
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            // Corrigido para 'src/test/java', que é onde seu 'testStatusPedido.java' está localizado
+            srcDirs = ['src/test/java']
         }
     }
 }
 
 test {
+    // Ativa o suporte ao JUnit Platform para rodar os testes do JUnit 5
     useJUnitPlatform()
 }
 
