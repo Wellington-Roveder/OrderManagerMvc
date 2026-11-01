@@ -15,30 +15,39 @@ repositories {
 }
 
 dependencies {
-    // Dependências do JUnit 5 para escrita e execução dos testes
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    testImplementation 'org.mockito:mockito-core:5.10.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.10.0'
 }
 
 sourceSets {
     main {
         java {
-            // Ajustado para mapear corretamente a pasta padrão de código do seu projeto
+
             srcDirs = ['src/main/java']
         }
     }
     test {
         java {
-            // Corrigido para 'src/test/java', que é onde seu 'testStatusPedido.java' está localizado
+
             srcDirs = ['src/test/java']
         }
     }
 }
 
 test {
-    // Ativa o suporte ao JUnit Platform para rodar os testes do JUnit 5
     useJUnitPlatform()
+
+
+    jvmArgs '-XX:+EnableDynamicAgentLoading',
+            '-XX:-CreateCoredumpOnCrash',
+            '--add-opens=java.base/sun.misc=ALL-UNNAMED'
+
+    systemProperty 'net.bytebuddy.experimental', 'true'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -53,3 +62,5 @@ tasks.named('run') {
             '-Dsun.stdout.encoding=UTF-8',
             '-Dsun.stderr.encoding=UTF-8')
 }
+
+
