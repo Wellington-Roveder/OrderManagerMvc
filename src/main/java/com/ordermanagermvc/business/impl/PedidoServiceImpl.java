@@ -42,6 +42,10 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido realizarVendaBoneco(String cpfCliente, String bonecoId, int quantidade){
+        if(quantidade <= 0){
+            throw new IllegalArgumentException("Erro: quantidade nao pode ser negativa");
+        }
+
         Cliente cliente = clienteService.buscarPorCpf(cpfCliente)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o CPF: " + cpfCliente));
 
