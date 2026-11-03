@@ -46,8 +46,9 @@ public class PedidoServiceImplTest {
             });
             
             assertEquals("Erro: quantidade deve ser maior que zero!!", vx.getMessage());
-            verifyNoInteractions(pedidoRepository);
+            verifyNoInteractions(pedidoRepository,clienteService,bonecoService);
 
       }
+
 
 }

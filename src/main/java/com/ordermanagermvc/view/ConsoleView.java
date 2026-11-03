@@ -17,6 +17,8 @@ import com.ordermanagermvc.model.entity.Endereco;
 
 public class ConsoleView {
 
+
+
     private final PedidoController pedidoController;
     private final ClienteController clienteController;
     private final EnderecoController enderecoController;
@@ -31,6 +33,9 @@ public class ConsoleView {
         this.bonecoController = bonecoController;
         this.scanner = new Scanner(System.in);
     }
+
+
+
 
     public void exibirMenu() {
         int opcao = -1;
@@ -81,17 +86,15 @@ public class ConsoleView {
     private void menuCadastrarCliente() {
         System.out.println("\n--- NOVO CLIENTE ---");
 
-        System.out.print("CPF: ");
-        String cpf = scanner.nextLine();
+        String cpf = lerEntradaValida("Cpf");
 
-        System.out.print("Nome: ");
-        String nome = scanner.nextLine();
+        String nome = lerEntradaValida("Nome");
 
-        System.out.print("Telefone: ");
-        String telefone = scanner.nextLine();
 
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
+        String telefone = lerEntradaValida("Telefone");
+
+
+        String email = lerEntradaValida("Email");
 
         String resposta = clienteController.cadastrar(cpf, nome, telefone, email);
         System.out.println(resposta);
@@ -288,6 +291,26 @@ public class ConsoleView {
         } catch (NumberFormatException e) {
             System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
         }
+    }
+
+    public String lerEntradaValida(String campo){
+        while(true){
+            System.out.println(campo + ": ");
+            String entrada = scanner.nextLine();
+
+            if (entrada == null){
+                System.out.println("O Valor nao Pode Ser Nulo! Tente novamente");
+                continue;
+            }
+
+            if(entrada.isBlank()){
+                System.out.println("Erro: O campo " + campo + " não deve ser vazio. Tente novamente.");
+                continue;
+            }
+
+            return entrada.trim();
+        }
+
     }
 
 
