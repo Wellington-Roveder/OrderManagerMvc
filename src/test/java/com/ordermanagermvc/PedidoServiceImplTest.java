@@ -3,11 +3,6 @@ package com.ordermanagermvc;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
 import com.ordermanagermvc.business.impl.PedidoServiceImpl;
 import com.ordermanagermvc.business.service.BonecoService;
 import com.ordermanagermvc.business.service.ClienteService;
@@ -17,7 +12,9 @@ import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.model.repository.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 
 
 public class PedidoServiceImplTest {
@@ -26,18 +23,7 @@ public class PedidoServiceImplTest {
       private ClienteService clienteService;
       private BonecoService bonecoService;
 
-      private  String cpfCliente = "52998224725";
-      private final String NOME_VALIDO = "João da Silva";
-      private final String TELEFONE_VALIDO = "11987654321";
-      private final String EMAIL_VALIDO = "joao@email.com";
-      private final String NOME_BONECO = "batman";
-      private final String CATEGORIA_BONECO = "BonecosHq";
-      private final BigDecimal PRECO = new BigDecimal("1200.50");
-      private final int QUANTIDADE_INICIAL = 10;
-
-
-
-
+      
 
       @BeforeEach
       void setUp(){
@@ -48,16 +34,18 @@ public class PedidoServiceImplTest {
 
       }
 
-      @Test
-      void deveRejeitarVendaQuandoQuantidadeNegativa(){
+      @ParameterizedTest
+      @ValueSource(ints = {-3,-1,0})
+      void deveRejeitarVendaQuandoQuantidadeNegativa(int quantidadeInvalida){
+            String cpfCliente = "52998224725";
             String bonecoId = "uuid-boneco-123";
-            int quantidadeInvalida = -3;
+            
 
-            assertThrows(IllegalArgumentException.class, () -> {
+            IllegalArgumentException vx = assertThrows(IllegalArgumentException.class, () -> {
                   pedidoService.realizarVendaBoneco(cpfCliente, bonecoId, quantidadeInvalida);
             });
-
-
+            
+            assertEquals("Erro: quantidade deve ser maior que zero!!", vx.getMessage());
             verifyNoInteractions(pedidoRepository);
 
       }
