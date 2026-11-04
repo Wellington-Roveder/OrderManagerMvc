@@ -1,5 +1,7 @@
 package com.ordermanagermvc.view;
 
+import java.util.NoSuchElementException;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -89,15 +91,15 @@ public class ConsoleView {
     private void menuCadastrarCliente() {
         System.out.println("\n--- NOVO CLIENTE ---");
 
-        String cpf = lerEntradaValida("Cpf");
+        String cpf = lerEntradaValidaString("Cpf");
 
-        String nome = lerEntradaValida("Nome");
-
-
-        String telefone = lerEntradaValida("Telefone");
+        String nome = lerEntradaValidaString("Nome");
 
 
-        String email = lerEntradaValida("Email");
+        String telefone = lerEntradaValidaString("Telefone");
+
+
+        String email = lerEntradaValidaString("Email");
 
         String resposta = clienteController.cadastrar(cpf, nome, telefone, email);
         System.out.println(resposta);
@@ -296,9 +298,9 @@ public class ConsoleView {
         }
     }
 
-    public String lerEntradaValida(String campo){
+    public String lerEntradaValidaString(String campo) throws NoSuchElementException {
         while (true) {
-            System.out.println(campo + ": ");
+            System.out.print(campo + ": ");
             String entrada = scanner.nextLine();
 
             if (entrada == null){
@@ -306,13 +308,34 @@ public class ConsoleView {
                 continue;
             }
 
-            if(entrada.isBlank()){
+            if (entrada.isBlank()){
                 System.out.println("Erro: O campo " + campo + " não deve ser vazio. Tente novamente.");
                 continue;
             }
 
             return entrada.trim();
         }
+    }
+
+     public Integer  lerEntradaValidaNum(String campo) throws NoSuchElementException {
+         while (true) {
+            System.out.print(campo + ": ");
+            String entrada = scanner.nextLine().trim();
+
+            if (entrada.isEmpty()){
+                System.out.println("Erro: O campo " + campo + " não deve ser vazio. Tente novamente.");
+                continue;
+            }
+         
+            try {
+                int valorNumerico = Integer.parseInt(entrada);
+                return valorNumerico;
+            
+        } catch (NumberFormatException e){
+            System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
+        } 
+         
+     }      
 
     }
 
