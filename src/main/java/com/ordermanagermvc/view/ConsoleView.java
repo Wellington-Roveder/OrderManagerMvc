@@ -1,5 +1,7 @@
 package com.ordermanagermvc.view;
 
+import java.util.NoSuchElementException;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,8 @@ import com.ordermanagermvc.model.entity.Endereco;
 
 public class ConsoleView {
 
+
+
     private final PedidoController pedidoController;
     private final ClienteController clienteController;
     private final EnderecoController enderecoController;
@@ -31,6 +35,9 @@ public class ConsoleView {
         this.bonecoController = bonecoController;
         this.scanner = new Scanner(System.in);
     }
+
+
+
 
     public void exibirMenu() {
         int opcao = -1;
@@ -73,6 +80,9 @@ public class ConsoleView {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Por favor, digite um número válido.");
+            } catch (NoSuchElementException e){
+                System.out.println("Erro: Parada inesperada da entrada de dados");
+                opcao = 0;
             }
         }
     }
@@ -81,17 +91,15 @@ public class ConsoleView {
     private void menuCadastrarCliente() {
         System.out.println("\n--- NOVO CLIENTE ---");
 
-        System.out.print("CPF: ");
-        String cpf = scanner.nextLine();
+        String cpf = lerEntradaValidaString("Cpf");
 
-        System.out.print("Nome: ");
-        String nome = scanner.nextLine();
+        String nome = lerEntradaValidaString("Nome");
 
-        System.out.print("Telefone: ");
-        String telefone = scanner.nextLine();
 
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
+        String telefone = lerEntradaValidaString("Telefone");
+
+
+        String email = lerEntradaValidaString("Email");
 
         String resposta = clienteController.cadastrar(cpf, nome, telefone, email);
         System.out.println(resposta);
@@ -121,13 +129,13 @@ public class ConsoleView {
         String bonecoId = scanner.nextLine();
 
         System.out.print("Quantidade desejada: ");
-        try{
+        try {
             int quantidade = Integer.parseInt(scanner.nextLine());
 
             String resposta = pedidoController.cadastrar(quantidade, cpfCliente, bonecoId);
             System.out.println(resposta);
 
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e){
             System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
         }
     }
@@ -151,7 +159,7 @@ public class ConsoleView {
         // Localiza o cliente através do controller de clientes
         Optional<Cliente> clienteOptional = clienteController.buscarPorCpf(cpf);
 
-        if(clienteOptional.isPresent()){
+        if (clienteOptional.isPresent()){
             Cliente cliente = clienteOptional.get();
 
             System.out.println("Cliente Encontrado!!");
@@ -165,7 +173,7 @@ public class ConsoleView {
                 pedidosDoCliente.forEach(System.out::println);
             }
 
-        }else{
+        } else {
             System.out.println("Erro: Nenhum cliente cadastrado com o CPF " + cpf);
         }
     }
@@ -264,10 +272,10 @@ public class ConsoleView {
         System.out.println("--- BONECOS DO CATALOGO ---");
         List<Boneco> todosBonecos = bonecoController.listarTodos();
 
-        if(todosBonecos.isEmpty()){
+        if (todosBonecos.isEmpty()){
             System.out.println("Catalogo de Bonecos está vazio");
 
-        }else{
+        } else {
             todosBonecos.forEach(System.out::println);
         }
     }
@@ -288,6 +296,47 @@ public class ConsoleView {
         } catch (NumberFormatException e) {
             System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
         }
+    }
+
+    public String lerEntradaValidaString(String campo) throws NoSuchElementException {
+        while (true) {
+            System.out.print(campo + ": ");
+            String entrada = scanner.nextLine();
+
+            if (entrada == null){
+                System.out.println("O Valor nao Pode Ser Nulo! Tente novamente");
+                continue;
+            }
+
+            if (entrada.isBlank()){
+                System.out.println("Erro: O campo " + campo + " não deve ser vazio. Tente novamente.");
+                continue;
+            }
+
+            return entrada.trim();
+        }
+    }
+
+     public Integer  lerEntradaValidaNum(String campo) throws NoSuchElementException {
+         while (true) {
+            System.out.print(campo + ": ");
+            String entrada = scanner.nextLine().trim();
+
+            if (entrada.isEmpty()){
+                System.out.println("Erro: O campo " + campo + " não deve ser vazio. Tente novamente.");
+                continue;
+            }
+         
+            try {
+                int valorNumerico = Integer.parseInt(entrada);
+                return valorNumerico;
+            
+        } catch (NumberFormatException e){
+            System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
+        } 
+         
+     }      
+
     }
 
 

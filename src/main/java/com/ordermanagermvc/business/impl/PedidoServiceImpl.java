@@ -31,7 +31,7 @@ public class PedidoServiceImpl implements PedidoService {
     private static final String CSV_LINE_FORMAT = "%s;%s;%s;%s";
 
 
-    ExecutorService pool = Executors.newFixedThreadPool(2);
+
 
 
     public PedidoServiceImpl(PedidoRepository pedidoRepository, ClienteService clienteService, BonecoService bonecoService) {
@@ -42,6 +42,10 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido realizarVendaBoneco(String cpfCliente, String bonecoId, int quantidade){
+        if(quantidade <= 0){
+            throw new IllegalArgumentException("Erro: quantidade deve ser maior que zero!!");
+        }
+
         Cliente cliente = clienteService.buscarPorCpf(cpfCliente)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o CPF: " + cpfCliente));
 
@@ -104,6 +108,8 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public void iniciarProcessamentoAssincrono() {
+
+        ExecutorService pool = Executors.newFixedThreadPool(2);
 
         PedidoProcessor tarefa1 = new PedidoProcessor("Lote de Pedidos #01 (Sudeste)");
         PedidoProcessor tarefa2 = new PedidoProcessor("Lote de Pedidos #02 (Nordeste)");
