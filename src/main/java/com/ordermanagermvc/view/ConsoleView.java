@@ -39,6 +39,7 @@ public class ConsoleView {
 
 
 
+
     public void exibirMenu() {
         int opcao = -1;
         while (opcao != 0) {
@@ -120,24 +121,17 @@ public class ConsoleView {
     private void menuIncluir() {
         System.out.println("\n--- NOVO PEDIDO ---");
 
-        System.out.print("CPF do Cliente: ");
-        String cpfCliente = scanner.nextLine();
+        String cpfCliente = lerEntradaValidaString("Cpf do Cliente");
 
         menuExibirBoneco();
 
-        System.out.println("\nDigite o ID do Boneco escolhido: ");
-        String bonecoId = scanner.nextLine();
+        String bonecoId = lerEntradaValidaString("Digite o ID do Boneco escolhido");
 
-        System.out.print("Quantidade desejada: ");
-        try {
-            int quantidade = Integer.parseInt(scanner.nextLine());
+        int quantidade = lerEntradaValidaNum("Quantidade desejada");
 
-            String resposta = pedidoController.cadastrar(quantidade, cpfCliente, bonecoId);
-            System.out.println(resposta);
+        String resposta = pedidoController.cadastrar(quantidade, cpfCliente, bonecoId);
+        System.out.println(resposta);
 
-        } catch (NumberFormatException e){
-            System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
-        }
     }
 
 
@@ -153,10 +147,10 @@ public class ConsoleView {
 
     private void menuListarPedidosPorCliente() {
         System.out.println("\n--- CONSULTAR PEDIDOS POR CLIENTE ---");
-        System.out.print("Digite o CPF do cliente: ");
-        String cpf = scanner.nextLine().replaceAll("\\D", "");
 
-        // Localiza o cliente através do controller de clientes
+
+        String cpf = lerEntradaValidaString("Digite o CPF do CLiente").replaceAll("\\D", "");
+
         Optional<Cliente> clienteOptional = clienteController.buscarPorCpf(cpf);
 
         if (clienteOptional.isPresent()){
@@ -181,23 +175,19 @@ public class ConsoleView {
 
     private void menuIncluirEndereco () {
         System.out.println("\n--- NOVO ENDEREÇO ---");
-        System.out.print("CPF do Cliente: ");
-        String cpfCliente = scanner.nextLine();
 
-        System.out.print("Rua: ");
-        String rua = scanner.nextLine();
 
-        System.out.print("Número: ");
-        String numero = scanner.nextLine();
+        String cpfCliente = lerEntradaValidaString("CPF do Cliente");
 
-        System.out.print("Cidade: ");
-        String cidade = scanner.nextLine();
+        String rua = lerEntradaValidaString("Rua");
 
-        System.out.print("Estado: ");
-        String estado = scanner.nextLine();
+        String numero = lerEntradaValidaString("Número");
 
-        System.out.print("CEP: ");
-        String cep = scanner.nextLine();
+        String cidade = lerEntradaValidaString("Cidade");
+
+        String estado = lerEntradaValidaString("Estado");
+
+        String cep = lerEntradaValidaString("CEP");
 
         String resposta = enderecoController.cadastrar(rua, numero, cidade, estado, cep, cpfCliente);
         System.out.println(resposta);
@@ -205,8 +195,9 @@ public class ConsoleView {
 
     private void menuPesquisarEnderecosPorCliente () {
         System.out.println("\n--- ENDEREÇOS DO CLIENTE ---");
-        System.out.print("Digite o CPF do cliente: ");
-        String cpfCliente = scanner.nextLine();
+
+
+        String cpfCliente = lerEntradaValidaString("Digite o CPF do cliente");
 
         List<Endereco> enderecos = enderecoController.listar(cpfCliente);
 
@@ -230,9 +221,8 @@ public class ConsoleView {
 
     private void menuExportarPedidos(){
         System.out.println("\n--- EXPORTAR PEDIDOS PARA CSV ---");
-        System.out.print("Digite o caminho/nome do arquivo (ex: relatorios/pedidos.csv): ");
 
-        String caminho = scanner.nextLine();
+        String caminho = lerEntradaValidaString("Caminho/Nome do arquivo (ex: relatorios/pedidos.csv)");
 
         String resposta = pedidoController.exportarRelatorio(caminho);
 
@@ -249,12 +239,14 @@ public class ConsoleView {
 
     private void menuCriarBonecos(){
         System.out.println("\n--- INICIANDO CATALOGO DE BONECOS ---");
+
         System.out.println("\n---Novo Boneco: ");
-        System.out.println("Digite o nome: ");
-        String nome = scanner.nextLine();
-        System.out.println("Digite a Categoria: ");
-        String categoria = scanner.nextLine();
-        System.out.println("Digite o valor: ");
+
+        String nome = lerEntradaValidaString("Nome");
+
+        String categoria = lerEntradaValidaString("Categoria");
+
+        System.out.print("Valor: ");
         try {
             String valorTexto = scanner.nextLine().replace(",", ".");
             BigDecimal preco = new BigDecimal(valorTexto);
@@ -283,24 +275,24 @@ public class ConsoleView {
     private void menuAdicionarEstoque() {
         System.out.println("--- Adicionar Quantidade de Bonecos ---");
 
-        try {
-            System.out.println("Digite a quantidade:");
-            int quantidade = Integer.parseInt(scanner.nextLine());
 
-            System.out.println("Digite o Id do Boneco:");
-            String id = scanner.nextLine();
+            int quantidade = lerEntradaValidaNum("Quantidade");
+
+
+            String id = lerEntradaValidaString("Id do Boneco");
 
             String resposta = bonecoController.adicionarQuantidade(id, quantidade);
             System.out.println(resposta);
-
-        } catch (NumberFormatException e) {
-            System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
-        }
     }
 
     public String lerEntradaValidaString(String campo) throws NoSuchElementException {
         while (true) {
             System.out.print(campo + ": ");
+
+
+            if (!scanner.hasNextLine()) {
+                throw new NoSuchElementException("Fluxo de entrada interrompido ou finalizado.");
+            }
             String entrada = scanner.nextLine();
 
             if (entrada == null){
@@ -317,29 +309,33 @@ public class ConsoleView {
         }
     }
 
-     public Integer  lerEntradaValidaNum(String campo) throws NoSuchElementException {
+    public Integer  lerEntradaValidaNum(String campo) throws NoSuchElementException {
          while (true) {
             System.out.print(campo + ": ");
-            String entrada = scanner.nextLine().trim();
 
-            if (entrada.isEmpty()){
+
+             if (!scanner.hasNextLine()) {
+                 throw new NoSuchElementException("Fluxo de entrada interrompido ou finalizado.");
+             }
+
+             String entrada = scanner.nextLine().trim();
+
+             if (entrada.isEmpty()){
                 System.out.println("Erro: O campo " + campo + " não deve ser vazio. Tente novamente.");
                 continue;
-            }
+             }
          
-            try {
+             try {
                 int valorNumerico = Integer.parseInt(entrada);
                 return valorNumerico;
             
-        } catch (NumberFormatException e){
+             } catch (NumberFormatException e){
             System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
-        } 
-         
+         }
+
      }      
 
     }
-
-
 
 
     }

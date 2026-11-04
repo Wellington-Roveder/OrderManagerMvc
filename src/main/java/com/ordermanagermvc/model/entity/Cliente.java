@@ -1,6 +1,7 @@
 package com.ordermanagermvc.model.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,14 +57,14 @@ public class Cliente {
 		this.email = email;
 	}
 
-	public List<Pedido> getPedidos() { return pedidos; }
+	public List<Pedido> getPedidos() { return Collections.unmodifiableList(this.pedidos); }
 
 	public void adicionarPedido(Pedido pedido) {
 		this.pedidos.add(pedido);
 	}
 
 
-	public List<Endereco> getEnderecos() { return enderecos; }
+	public List<Endereco> getEnderecos() { return Collections.unmodifiableList(this.enderecos); }
 	public void adicionarEndereco(Endereco endereco) {
 		this.enderecos.add(endereco);
 	}

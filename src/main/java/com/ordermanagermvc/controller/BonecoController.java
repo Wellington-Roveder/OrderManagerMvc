@@ -37,7 +37,7 @@ public class BonecoController {
 
     public String adicionarQuantidade(String uuId,int quantidade){
         try{
-            service.adcionarQuantidade(uuId, quantidade);
+            service.adicionarQuantidade(uuId, quantidade);
         }catch (Exception e){
             return "Erro ao adicionar quantidade" + e.getMessage();
         }

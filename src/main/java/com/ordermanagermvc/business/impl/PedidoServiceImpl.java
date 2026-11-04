@@ -65,6 +65,7 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido novoPedido = new Pedido(uuidRandom, cliente);
 
         novoPedido.adicionarItem(itemPedido);
+        cliente.adicionarPedido(novoPedido);
 
         pedidoRepository.salvar(novoPedido);
         return novoPedido;

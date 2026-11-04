@@ -14,10 +14,6 @@ public class Pedido {
 	public Pedido(String uuId, Cliente cliente) {
 		this.uuId = uuId;
 		this.cliente = cliente;
-
-		if (cliente != null && !cliente.getPedidos().contains(this)) {
-			cliente.getPedidos().add(this);
-		}
 	}
 
 	public String getUuId() { return uuId; }
