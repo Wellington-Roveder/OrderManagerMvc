@@ -78,7 +78,7 @@ public class ConsoleView {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Por favor, digite um número válido.");
-            }catch (NoSuchElementException e){
+            } catch (NoSuchElementException e){
                 System.out.println("Erro: Parada inesperada da entrada de dados");
                 opcao = 0;
             }
@@ -127,13 +127,13 @@ public class ConsoleView {
         String bonecoId = scanner.nextLine();
 
         System.out.print("Quantidade desejada: ");
-        try{
+        try {
             int quantidade = Integer.parseInt(scanner.nextLine());
 
             String resposta = pedidoController.cadastrar(quantidade, cpfCliente, bonecoId);
             System.out.println(resposta);
 
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e){
             System.out.println("Erro: A quantidade deve ser um número inteiro válido.");
         }
     }
@@ -157,7 +157,7 @@ public class ConsoleView {
         // Localiza o cliente através do controller de clientes
         Optional<Cliente> clienteOptional = clienteController.buscarPorCpf(cpf);
 
-        if(clienteOptional.isPresent()){
+        if (clienteOptional.isPresent()){
             Cliente cliente = clienteOptional.get();
 
             System.out.println("Cliente Encontrado!!");
@@ -171,7 +171,7 @@ public class ConsoleView {
                 pedidosDoCliente.forEach(System.out::println);
             }
 
-        }else{
+        } else {
             System.out.println("Erro: Nenhum cliente cadastrado com o CPF " + cpf);
         }
     }
@@ -270,10 +270,10 @@ public class ConsoleView {
         System.out.println("--- BONECOS DO CATALOGO ---");
         List<Boneco> todosBonecos = bonecoController.listarTodos();
 
-        if(todosBonecos.isEmpty()){
+        if (todosBonecos.isEmpty()){
             System.out.println("Catalogo de Bonecos está vazio");
 
-        }else{
+        } else {
             todosBonecos.forEach(System.out::println);
         }
     }
@@ -297,7 +297,7 @@ public class ConsoleView {
     }
 
     public String lerEntradaValida(String campo){
-        while(true){
+        while (true) {
             System.out.println(campo + ": ");
             String entrada = scanner.nextLine();
 
