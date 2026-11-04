@@ -78,6 +78,9 @@ public class ConsoleView {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Por favor, digite um número válido.");
+            }catch (NoSuchElementException e){
+                System.out.println("Erro: Parada inesperada da entrada de dados");
+                opcao = 0;
             }
         }
     }
