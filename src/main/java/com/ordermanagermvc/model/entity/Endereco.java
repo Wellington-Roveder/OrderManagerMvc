@@ -21,10 +21,6 @@ public class Endereco {
         this.cep = cep;
         this.cliente = cliente;
 
-        if (cliente != null && !cliente.getEnderecos().contains(this)) {
-            cliente.getEnderecos().add(this);
-        }
-
     }
     public String getUuId() { return uuId; }
 

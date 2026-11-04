@@ -37,6 +37,9 @@ public class EnderecoServiceImpl implements EnderecoService {
         String uuidRandom = UUID.randomUUID().toString();
 
         Endereco novoEndereco = new Endereco(uuidRandom,rua,numero,cidade,estado,cep, cliente);
+
+        cliente.adicionarEndereco(novoEndereco);
+
         repository.salvar(novoEndereco);
     }
 

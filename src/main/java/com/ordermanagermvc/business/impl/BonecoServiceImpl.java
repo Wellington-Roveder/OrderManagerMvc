@@ -23,6 +23,19 @@ public class BonecoServiceImpl implements BonecoService {
     @Override
     public void criarBoneco(String nome, BigDecimal preco, String categoria) {
            String uuidRandom = UUID.randomUUID().toString();
+
+            if (nome == null || nome.trim().isEmpty()) {
+                throw new IllegalArgumentException("O nome do boneco não pode estar em branco.");
+            }
+
+            if (preco == null){
+                throw new IllegalArgumentException("O preço do boneco não pode ser nulo.");
+            }
+
+            if (preco.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new IllegalArgumentException("O preço do boneco deve ser maior que zero.");
+            }
+
            Boneco novoBoneco = new Boneco(uuidRandom, nome, preco, categoria);
 
            repository.salvar(novoBoneco);
@@ -48,7 +61,10 @@ public class BonecoServiceImpl implements BonecoService {
     }
 
     @Override
-    public void adcionarQuantidade(String uuId,int quantidade) {
+    public void adicionarQuantidade(String uuId,int quantidade) {
+        if(quantidade <= 0){
+            throw new IllegalArgumentException("Erro: quantidade deve ser maior que zero!!");
+        }
         repository.adicionarEstoque(uuId, quantidade);
     }
 

@@ -1,6 +1,8 @@
 package com.ordermanagermvc.controller;
 
+import java.awt.geom.IllegalPathStateException;
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.util.List;
 import com.ordermanagermvc.business.service.PedidoService;
 import com.ordermanagermvc.model.entity.Pedido;
@@ -18,7 +20,8 @@ public class PedidoController {
             return "Sucesso: Pedido registrado com sucesso!";
         } catch (IllegalArgumentException e) {
             return "Erro de validação: " + e.getMessage();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return "Erro inesperado: " + e.getMessage();
         }
     }
@@ -36,6 +39,8 @@ public class PedidoController {
             return "Sucesso: Relatório exportado com sucesso em: " + caminhoArquivo;
         } catch (IOException e) {
             return "Erro ao gerar o arquivo CSV: " + e.getMessage();
+        } catch (InvalidPathException e){
+            return "O caminho informado é inválido. Detalhes: " + e.getReason();
         }
     }
 
