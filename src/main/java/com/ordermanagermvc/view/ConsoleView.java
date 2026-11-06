@@ -112,7 +112,7 @@ public class ConsoleView {
         System.out.println("\n--- LISTAGEM DE CLIENTES ---");
         List<Cliente> clientes = clienteController.listar();
         if (clientes.isEmpty()) {
-            Logger.getInstance().warning("Nenhum cliente cadastrado até o momento.");
+            System.out.println("Nenhum pedido cadastrado até o momento.");
         } else {
             clientes.forEach(System.out::println);
         }

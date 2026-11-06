@@ -29,6 +29,7 @@ Thumbs.db
 *.log
 logs/
 
+
 # Sensitive application properties
 **/application-prod.properties
 **/application-secret.yml
