@@ -15,6 +15,7 @@ import com.ordermanagermvc.model.entity.Pedido;
 import com.ordermanagermvc.model.entity.Cliente;
 import com.ordermanagermvc.controller.EnderecoController;
 import com.ordermanagermvc.model.entity.Endereco;
+import com.ordermanagermvc.util.Logger;
 
 
 public class ConsoleView {
@@ -111,7 +112,7 @@ public class ConsoleView {
         System.out.println("\n--- LISTAGEM DE CLIENTES ---");
         List<Cliente> clientes = clienteController.listar();
         if (clientes.isEmpty()) {
-            System.out.println("Nenhum cliente cadastrado até o momento.");
+            System.out.println("Nenhum pedido cadastrado até o momento.");
         } else {
             clientes.forEach(System.out::println);
         }
